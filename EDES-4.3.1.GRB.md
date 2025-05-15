@@ -48,8 +48,16 @@ He cambiado el modo de funcionamiento de KTLint a modo manual, haciendo que yo m
 
 ### 3.c Pon un ejemplo de cómo ha impactado en tu código, enlazando al código anterior al cambio, y al posterior al cambio.
 
+- Parte anterior del código
+https://github.com/gromber05/kotest/blob/0cdc4cbd909930a95d0adef5e326a5ac95583e22/src/main/kotlin/utils/Utilidades.kt#L15-L33
+- Parte nueva del código
+https://github.com/gromber05/kotest/blob/2b9daaaceedd393ac82275bdae93572963f34a34/src/main/kotlin/utils/Utilidades.kt#L7-L30
+
 ---
 
 # [4]
 
 ### 4 ¿Qué conclusiones sacas después del uso de estas herramientas?
+
+El uso de KTLint en mis proyectos, tanto personales como los que pertenecen a una empresa, es un gran avance gracias a que proporciona mejoras del código, fomentando el uso de las buenas prácticas, sugiriendo nombres más descriptivos o ayudando a escribir un código limpio.
+Sin embargo, aunque KTLint es una gran mejora, no reemplaza el criterio humano ni puede continuar la lógica del código. Es una buena herramienta para la ayuda de escritura de código, pero no en dirigirlo completamente.
