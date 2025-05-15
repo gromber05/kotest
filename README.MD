@@ -1,78 +1,99 @@
-# ActividadServiceTest
+# **Pruebas de ActividadService**
 
-## Tabla de Casos de Prueba
+## Resumen de Casos de Prueba
 
-| Método                     | Caso de prueba                                       | Estado inicial del mock                          | Acción                                             | Resultado esperado                                  |
-|----------------------------|------------------------------------------------------|--------------------------------------------------|----------------------------------------------------|----------------------------------------------------|
-| `crearEvento(...)`          | Datos válidos                                        | `mockRepositorio` no tiene interacciones previas | Llamar `crearEvento(descripcion, fecha, ubicacion)` | Evento creado y agregado al repositorio             |
-| `crearEvento(...)`          | Fecha no válida                                      | `mockRepositorio` no tiene interacciones previas | Llamar `crearEvento(descripcion, fecha, ubicacion)` | Lanza `IllegalArgumentException`                    |
-| `crearTarea(...)`           | Descripción válida                                   | `mockRepositorio` no tiene interacciones previas | Llamar `crearTarea(descripcion)`                   | Tarea creada y agregada al repositorio              |
-| `crearTarea(...)`           | Descripción vacía                                    | `mockRepositorio` no tiene interacciones previas | Llamar `crearTarea("")`                            | Lanza `IllegalArgumentException`                    |
-| `asociarSubtarea(...)`      | Subtarea asociada correctamente                      | `tareaPrincipal` y `subtarea` son mocks válidos  | Llamar `asociarSubtarea(tareaPrincipal, subtarea)` | Subtarea agregada a la tarea principal              |
-| `asociarSubtarea(...)`      | Subtarea nula                                        | `tareaPrincipal` es un mock válido               | Llamar `asociarSubtarea(tareaPrincipal, null)`     | Lanza `NullPointerException`                        |
-| `cambiarEstadoTarea(...)`   | Cambiar el estado de la tarea correctamente          | `tarea` es un mock válido                        | Llamar `cambiarEstadoTarea(tarea, nuevoEstado)`    | Estado de la tarea cambiado correctamente           |
-| `cambiarEstadoTarea(...)`   | Tarea nula                                           | `tarea` es nula                                  | Llamar `cambiarEstadoTarea(null, nuevoEstado)`     | Lanza `NullPointerException`                        |
-| `listarActividades()`       | Repositorio con datos                                | `mockRepositorio` devuelve una lista de actividades | Llamar `listarActividades()`                      | Retorna una lista con actividades                   |
-| `listarActividades()`       | Repositorio vacío                                    | `mockRepositorio` devuelve una lista vacía      | Llamar `listarActividades()`                      | Retorna una lista vacía                             |
+| Método                    | Escenario                                    | Estado inicial del mock                         | Acción ejecutada                                      | Resultado esperado                      |
+| ------------------------- | -------------------------------------------- | ----------------------------------------------- | ----------------------------------------------------- | --------------------------------------- |
+| `crearEvento(...)`        | Entrada válida                               | Sin interacciones previas                       | Ejecutar `crearEvento(descripción, fecha, ubicación)` | Se guarda el evento en el repositorio   |
+| `crearEvento(...)`        | Formato de fecha incorrecto                  | Sin interacciones previas                       | Ejecutar `crearEvento(descripción, fecha, ubicación)` | Se lanza una `IllegalArgumentException` |
+| `crearTarea(...)`         | Descripción no vacía                         | Sin interacciones previas                       | Ejecutar `crearTarea(descripción)`                    | Se almacena la tarea en el repositorio  |
+| `crearTarea(...)`         | Descripción vacía                            | Sin interacciones previas                       | Ejecutar `crearTarea("")`                             | Se lanza una `IllegalArgumentException` |
+| `asociarSubtarea(...)`    | Subtarea válida                              | `tareaPrincipal` y `subtarea` son mocks válidos | Ejecutar `asociarSubtarea(tareaPrincipal, subtarea)`  | La subtarea se asocia correctamente     |
+| `asociarSubtarea(...)`    | Subtarea es `null`                           | `tareaPrincipal` es mock válido                 | Ejecutar `asociarSubtarea(tareaPrincipal, null)`      | Se lanza `NullPointerException`         |
+| `cambiarEstadoTarea(...)` | Cambiar el estado de una tarea correctamente | `tarea` es un mock válido                       | Ejecutar `cambiarEstadoTarea(tarea, nuevoEstado)`     | El estado se actualiza con historial    |
+| `cambiarEstadoTarea(...)` | Tarea nula                                   | `tarea` es `null`                               | Ejecutar `cambiarEstadoTarea(null, nuevoEstado)`      | Se lanza `NullPointerException`         |
+| `listarActividades()`     | Repositorio con elementos                    | Devuelve lista no vacía                         | Ejecutar `listarActividades()`                        | Se obtiene la lista de actividades      |
+| `listarActividades()`     | Repositorio vacío                            | Devuelve lista vacía                            | Ejecutar `listarActividades()`                        | Se obtiene una lista vacía              |
 
-## Detalles de los casos de prueba
+---
+
+## Detalles por Método
 
 ### `crearEvento(descripcion: String, fecha: String, ubicacion: String)`
 
-- **Caso 1: Datos válidos**
-    - **Estado inicial del mock**: `mockRepositorio` no tiene interacciones previas.
-    - **Acción**: Llamada al método `crearEvento` con datos válidos.
-    - **Resultado esperado**: Se crea un evento y se agrega al repositorio correctamente. Se verifica que `agregarEvento` fue invocado.
+* **Prueba: Datos correctos**
 
-- **Caso 2: Fecha no válida**
-    - **Estado inicial del mock**: `mockRepositorio` no tiene interacciones previas.
-    - **Acción**: Llamada al método `crearEvento` con una fecha no válida.
-    - **Resultado esperado**: Se lanza `IllegalArgumentException` porque la fecha no es válida.
+  * **Mock inicial**: El repositorio no ha sido usado previamente.
+  * **Acción**: Se llama al método pasando valores válidos.
+  * **Esperado**: El evento es construido y enviado al repositorio. Se comprueba la invocación de `agregarEvento`.
+
+* **Prueba: Fecha en formato incorrecto**
+
+  * **Mock inicial**: Repositorio sin actividad.
+  * **Acción**: Se utiliza una fecha con un formato no admitido.
+  * **Esperado**: Lanza una excepción del tipo `IllegalArgumentException`.
+
+---
 
 ### `crearTarea(descripcion: String)`
 
-- **Caso 1: Descripción válida**
-    - **Estado inicial del mock**: `mockRepositorio` no tiene interacciones previas.
-    - **Acción**: Llamada al método `crearTarea` con una descripción válida.
-    - **Resultado esperado**: Se crea una tarea y se agrega al repositorio correctamente. Se verifica que `agregarTarea` fue invocado.
+* **Prueba: Descripción válida**
 
-- **Caso 2: Descripción vacía**
-    - **Estado inicial del mock**: `mockRepositorio` no tiene interacciones previas.
-    - **Acción**: Llamada al método `crearTarea` con una descripción vacía.
-    - **Resultado esperado**: Se lanza `IllegalArgumentException` debido a que la descripción es vacía.
+  * **Mock inicial**: El repositorio aún no ha sido invocado.
+  * **Acción**: Se pasa una cadena con contenido válido.
+  * **Esperado**: La tarea se registra correctamente y se invoca `agregarTarea`.
+
+* **Prueba: Descripción vacía**
+
+  * **Mock inicial**: El mock está limpio.
+  * **Acción**: Se pasa una cadena vacía como argumento.
+  * **Esperado**: Lanza `IllegalArgumentException` porque la descripción no puede estar vacía.
+
+---
 
 ### `asociarSubtarea(tareaPrincipal: Tarea, subtarea: Tarea)`
 
-- **Caso 1: Subtarea asociada correctamente**
-    - **Estado inicial del mock**: `tareaPrincipal` y `subtarea` son mocks válidos.
-    - **Acción**: Llamada al método `asociarSubtarea`.
-    - **Resultado esperado**: La subtarea se agrega correctamente a la tarea principal. Se verifica que `agregarSubtarea` fue invocado.
+* **Prueba: Subtarea válida**
 
-- **Caso 2: Subtarea nula**
-    - **Estado inicial del mock**: `tareaPrincipal` es un mock válido y `subtarea` es nula.
-    - **Acción**: Llamada al método `asociarSubtarea` con una subtarea nula.
-    - **Resultado esperado**: Se lanza `NullPointerException` debido a que no se puede agregar una subtarea nula.
+  * **Mock inicial**: Ambas tareas (principal y subtarea) están mockeadas.
+  * **Acción**: Se llama al método con objetos válidos.
+  * **Esperado**: La subtarea se vincula correctamente. Se comprueba que se llamó a `agregarSubtarea`.
+
+* **Prueba: Subtarea nula**
+
+  * **Mock inicial**: Solo `tareaPrincipal` es un mock válido.
+  * **Acción**: Se intenta asociar `null` como subtarea.
+  * **Esperado**: El método lanza una `NullPointerException`.
+
+---
 
 ### `cambiarEstadoTarea(tarea: Tarea, nuevoEstado: Estado)`
 
-- **Caso 1: Cambiar estado correctamente**
-    - **Estado inicial del mock**: `tarea` es un mock válido.
-    - **Acción**: Llamada al método `cambiarEstadoTarea` con una tarea y un nuevo estado válidos.
-    - **Resultado esperado**: Se cambia el estado de la tarea correctamente. Se verifica que `cambiarEstadoConHistorial` fue invocado.
+* **Prueba: Cambio exitoso**
 
-- **Caso 2: Tarea nula**
-    - **Estado inicial del mock**: `tarea` es nula.
-    - **Acción**: Llamada al método `cambiarEstadoTarea` con una tarea nula.
-    - **Resultado esperado**: Se lanza `NullPointerException` porque no se puede cambiar el estado de una tarea nula.
+  * **Mock inicial**: La tarea está correctamente mockeada.
+  * **Acción**: Se invoca el cambio de estado.
+  * **Esperado**: Se ejecuta `cambiarEstadoConHistorial` en la tarea.
+
+* **Prueba: Tarea inexistente**
+
+  * **Mock inicial**: La tarea es `null`.
+  * **Acción**: Se intenta cambiar el estado a una tarea nula.
+  * **Esperado**: Lanza `NullPointerException`.
+
+---
 
 ### `listarActividades()`
 
-- **Caso 1: Repositorio con actividades**
-    - **Estado inicial del mock**: `mockRepositorio` devuelve una lista de actividades.
-    - **Acción**: Llamada al método `listarActividades`.
-    - **Resultado esperado**: Se retorna una lista con las actividades del repositorio.
+* **Prueba: Con datos disponibles**
 
-- **Caso 2: Repositorio vacío**
-    - **Estado inicial del mock**: `mockRepositorio` devuelve una lista vacía.
-    - **Acción**: Llamada al método `listarActividades`.
-    - **Resultado esperado**: Se retorna una lista vacía.
+  * **Mock inicial**: El repositorio retorna una lista con elementos.
+  * **Acción**: Se llama a `listarActividades`.
+  * **Esperado**: Devuelve la misma lista que contiene el repositorio.
+
+* **Prueba: Sin datos**
+
+  * **Mock inicial**: El mock devuelve una lista vacía.
+  * **Acción**: Se ejecuta `listarActividades`.
+  * **Esperado**: Se obtiene una lista vacía sin errores.
+
