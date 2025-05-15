@@ -11,7 +11,5 @@ class UsuarioRepository : IUsuarioRepository {
 
     override fun obtenerUsuarios(): List<Usuario> = usuarios
 
-    override fun obtenerUsuarioPorNombre(nombre: String): Usuario? {
-        return usuarios.find { it.nombre == nombre }
-    }
+    override fun obtenerUsuarioPorNombre(nombre: String): Usuario? = usuarios.find { it.nombre == nombre }
 }

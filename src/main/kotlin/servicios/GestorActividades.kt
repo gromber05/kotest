@@ -2,15 +2,14 @@ package es.prog2425.taskmanager.servicios
 
 import es.prog2425.taskmanager.datos.ActividadRepository
 import es.prog2425.taskmanager.modelo.Actividad
+import es.prog2425.taskmanager.modelo.Estado
+import es.prog2425.taskmanager.modelo.Evento
+import es.prog2425.taskmanager.modelo.Tarea
 import es.prog2425.taskmanager.presentacion.Consola
 import es.prog2425.taskmanager.presentacion.Interfaz
 import es.prog2425.taskmanager.utils.Utilidades
-import es.prog2425.taskmanager.modelo.Tarea
-import es.prog2425.taskmanager.modelo.Estado
-import es.prog2425.taskmanager.modelo.Evento
 
 class GestorActividades {
-
     private val salida: Interfaz = Consola()
     private val servicio = ActividadService(ActividadRepository())
     private val servicioUsuario: IUsuarioService = UsuarioService()
@@ -39,7 +38,6 @@ class GestorActividades {
             } catch (e: java.lang.IllegalStateException) {
                 salida.mostrar("$e")
             }
-
         } while (!salir)
     }
 
@@ -81,15 +79,16 @@ class GestorActividades {
         salida.mostrar("3. FINALIZADA")
 
         val estadoSeleccionado = salida.leerNum()
-        val nuevoEstado = when (estadoSeleccionado) {
-            1 -> Estado.ABIERTA
-            2 -> Estado.EN_PROGRESO
-            3 -> Estado.FINALIZADA
-            else -> {
-                salida.mostrar("\nOpción no válida. El estado no ha sido cambiado.")
-                return
+        val nuevoEstado =
+            when (estadoSeleccionado) {
+                1 -> Estado.ABIERTA
+                2 -> Estado.EN_PROGRESO
+                3 -> Estado.FINALIZADA
+                else -> {
+                    salida.mostrar("\nOpción no válida. El estado no ha sido cambiado.")
+                    return
+                }
             }
-        }
 
         try {
             servicio.cambiarEstadoTarea(tarea, nuevoEstado)
@@ -119,7 +118,11 @@ class GestorActividades {
 
     private fun pedirEtiquetas(): List<String> {
         salida.mostrarInput("Introduce las etiquetas (separadas por ';'):")
-        return salida.leerString().split(';').map { it.trim() }.filter { it.isNotEmpty() }
+        return salida
+            .leerString()
+            .split(';')
+            .map { it.trim() }
+            .filter { it.isNotEmpty() }
     }
 
     // Asociar una subtarea a una tarea principal
@@ -142,7 +145,6 @@ class GestorActividades {
             salida.mostrar("\nNo hay tareas disponibles.")
             println("Error no controlado si no hay try-catch")
             throw IllegalStateException("No hay tareas disponibles para seleccionar.")
-
         }
 
         salida.mostrar("\nSelecciona una tarea de la lista:")
@@ -184,7 +186,9 @@ class GestorActividades {
 
             if (Utilidades().esFechaValida(fecha)) {
                 return fecha
-            } else salida.mostrar("\nFecha invalida.")
+            } else {
+                salida.mostrar("\nFecha invalida.")
+            }
         }
     }
 
@@ -208,9 +212,6 @@ class GestorActividades {
     private fun asignarTareaAUsuario() {
         salida.mostrar("\nSelecciona la tarea a asignar: ")
         val tarea = obtenerTarea()
-
-
-
 
         salida.mostrar("\nIntroduce el nombre del usuario al que asignar la tarea: ")
         val nombreUsuario = salida.leerString()
@@ -244,13 +245,16 @@ class GestorActividades {
     private fun filtrarPorUsuario() {
         salida.mostrar("\nIntroduce el nombre del usuario a filtrar:")
         val nombreUsuario = salida.leerString()
-        val usuario = servicioUsuario.obtenerUsuarioPorNombre(nombreUsuario) ?: run {
-            salida.mostrar("\nNo se encontró un usuario con ese nombre.")
-            return
-        }
-        val filtradas = servicio.listarActividades()
-            .filterIsInstance<Tarea>()
-            .filter { it.obtenerUsuarioAsignado() == usuario }
+        val usuario =
+            servicioUsuario.obtenerUsuarioPorNombre(nombreUsuario) ?: run {
+                salida.mostrar("\nNo se encontró un usuario con ese nombre.")
+                return
+            }
+        val filtradas =
+            servicio
+                .listarActividades()
+                .filterIsInstance<Tarea>()
+                .filter { it.obtenerUsuarioAsignado() == usuario }
         mostrarActividades(filtradas)
     }
 
@@ -260,14 +264,15 @@ class GestorActividades {
         salida.mostrar("2. Evento")
         val tipoSeleccionado = salida.leerNum()
 
-        val actividadesFiltradas = when (tipoSeleccionado) {
-            1 -> servicio.listarActividades().filterIsInstance<Tarea>()
-            2 -> servicio.listarActividades().filterIsInstance<Evento>()
-            else -> {
-                salida.mostrar("\nOpción no válida.")
-                return
+        val actividadesFiltradas =
+            when (tipoSeleccionado) {
+                1 -> servicio.listarActividades().filterIsInstance<Tarea>()
+                2 -> servicio.listarActividades().filterIsInstance<Evento>()
+                else -> {
+                    salida.mostrar("\nOpción no válida.")
+                    return
+                }
             }
-        }
 
         mostrarActividades(actividadesFiltradas)
     }
@@ -279,15 +284,16 @@ class GestorActividades {
         salida.mostrar("3. FINALIZADA")
         val estadoSeleccionado = salida.leerNum()
 
-        val estado = when (estadoSeleccionado) {
-            1 -> Estado.ABIERTA
-            2 -> Estado.EN_PROGRESO
-            3 -> Estado.FINALIZADA
-            else -> {
-                salida.mostrar("\nOpción no válida.")
-                return
+        val estado =
+            when (estadoSeleccionado) {
+                1 -> Estado.ABIERTA
+                2 -> Estado.EN_PROGRESO
+                3 -> Estado.FINALIZADA
+                else -> {
+                    salida.mostrar("\nOpción no válida.")
+                    return
+                }
             }
-        }
 
         val actividadesFiltradas = servicio.listarActividades().filter { it is Tarea && it.estado == estado }
         mostrarActividades(actividadesFiltradas)
@@ -297,9 +303,10 @@ class GestorActividades {
         salida.mostrar("\nIntroduce la etiqueta a filtrar: ")
         val etiqueta = salida.leerString()
 
-        val actividadesFiltradas = servicio.listarActividades().filter {
-            (it is Tarea || it is Evento) && it.obtenerEtiquetas().contains(etiqueta)
-        }
+        val actividadesFiltradas =
+            servicio.listarActividades().filter {
+                (it is Tarea || it is Evento) && it.obtenerEtiquetas().contains(etiqueta)
+            }
 
         mostrarActividades(actividadesFiltradas)
     }

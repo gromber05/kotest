@@ -10,112 +10,113 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 
-class ActividadServiceTest : DescribeSpec({
+class ActividadServiceTest :
+    DescribeSpec({
 
-    val mockRepositorio = mockk<ActividadRepository>(relaxed = true)
-    val servicio = ActividadService(mockRepositorio)
+        val mockRepositorio = mockk<ActividadRepository>(relaxed = true)
+        val servicio = ActividadService(mockRepositorio)
 
-    describe("crearEvento") {
+        describe("crearEvento") {
 
-        it("debería crear un evento correctamente y almacenarlo en el repositorio") {
-            val descripcion = "Evento de prueba"
-            val fecha = "12-05-2025"
-            val ubicacion = "Ubicación de prueba"
+            it("debería crear un evento correctamente y almacenarlo en el repositorio") {
+                val descripcion = "Evento de prueba"
+                val fecha = "12-05-2025"
+                val ubicacion = "Ubicación de prueba"
 
-            servicio.crearEvento(descripcion, fecha, ubicacion)
-
-            verify { mockRepositorio.agregarEvento(any()) }
-        }
-
-        it("debería lanzar una excepción si el formato de la fecha es incorrecto") {
-            val descripcion = "Evento de prueba"
-            val fecha = "2025-05-12" // Formato incorrecto esperado
-            val ubicacion = "Ubicación de prueba"
-
-            shouldThrow<IllegalArgumentException> {
                 servicio.crearEvento(descripcion, fecha, ubicacion)
+
+                verify { mockRepositorio.agregarEvento(any()) }
+            }
+
+            it("debería lanzar una excepción si el formato de la fecha es incorrecto") {
+                val descripcion = "Evento de prueba"
+                val fecha = "2025-05-12" // Formato incorrecto esperado
+                val ubicacion = "Ubicación de prueba"
+
+                shouldThrow<IllegalArgumentException> {
+                    servicio.crearEvento(descripcion, fecha, ubicacion)
+                }
             }
         }
-    }
 
-    describe("crearTarea") {
+        describe("crearTarea") {
 
-        it("debería crear una tarea válida y guardarla en el repositorio") {
-            val descripcion = "Tarea de ejemplo"
+            it("debería crear una tarea válida y guardarla en el repositorio") {
+                val descripcion = "Tarea de ejemplo"
 
-            servicio.crearTarea(descripcion)
-
-            verify { mockRepositorio.agregarTarea(any()) }
-        }
-
-        it("debería lanzar una excepción si la descripción está vacía") {
-            val descripcion = ""
-
-            shouldThrow<IllegalArgumentException> {
                 servicio.crearTarea(descripcion)
+
+                verify { mockRepositorio.agregarTarea(any()) }
+            }
+
+            it("debería lanzar una excepción si la descripción está vacía") {
+                val descripcion = ""
+
+                shouldThrow<IllegalArgumentException> {
+                    servicio.crearTarea(descripcion)
+                }
             }
         }
-    }
 
-    describe("asociarSubtarea") {
+        describe("asociarSubtarea") {
 
-        it("debería asociar correctamente una subtarea a una tarea principal") {
-            val tareaPrincipal = mockk<Tarea>(relaxed = true)
-            val subtarea = mockk<Tarea>()
+            it("debería asociar correctamente una subtarea a una tarea principal") {
+                val tareaPrincipal = mockk<Tarea>(relaxed = true)
+                val subtarea = mockk<Tarea>()
 
-            servicio.asociarSubtarea(tareaPrincipal, subtarea)
+                servicio.asociarSubtarea(tareaPrincipal, subtarea)
 
-            verify { tareaPrincipal.agregarSubtarea(subtarea) }
-        }
+                verify { tareaPrincipal.agregarSubtarea(subtarea) }
+            }
 
-        it("debería lanzar una excepción si la subtarea es nula") {
-            val tareaPrincipal = mockk<Tarea>(relaxed = true)
-            val subtarea: Tarea? = null
+            it("debería lanzar una excepción si la subtarea es nula") {
+                val tareaPrincipal = mockk<Tarea>(relaxed = true)
+                val subtarea: Tarea? = null
 
-            shouldThrow<NullPointerException> {
-                servicio.asociarSubtarea(tareaPrincipal, subtarea!!)
+                shouldThrow<NullPointerException> {
+                    servicio.asociarSubtarea(tareaPrincipal, subtarea!!)
+                }
             }
         }
-    }
 
-    describe("cambiarEstadoTarea") {
+        describe("cambiarEstadoTarea") {
 
-        it("debería cambiar correctamente el estado de una tarea") {
-            val tarea = mockk<Tarea>(relaxed = true)
-            val nuevoEstado = mockk<Estado>()
+            it("debería cambiar correctamente el estado de una tarea") {
+                val tarea = mockk<Tarea>(relaxed = true)
+                val nuevoEstado = mockk<Estado>()
 
-            servicio.cambiarEstadoTarea(tarea, nuevoEstado)
+                servicio.cambiarEstadoTarea(tarea, nuevoEstado)
 
-            verify { tarea.cambiarEstadoConHistorial(nuevoEstado) }
-        }
+                verify { tarea.cambiarEstadoConHistorial(nuevoEstado) }
+            }
 
-        it("debería lanzar una excepción si la tarea es nula") {
-            val tarea: Tarea? = null
-            val nuevoEstado = mockk<Estado>()
+            it("debería lanzar una excepción si la tarea es nula") {
+                val tarea: Tarea? = null
+                val nuevoEstado = mockk<Estado>()
 
-            shouldThrow<NullPointerException> {
-                servicio.cambiarEstadoTarea(tarea!!, nuevoEstado)
+                shouldThrow<NullPointerException> {
+                    servicio.cambiarEstadoTarea(tarea!!, nuevoEstado)
+                }
             }
         }
-    }
 
-    describe("listarActividades") {
+        describe("listarActividades") {
 
-        it("debería devolver una lista de actividades si hay datos en el repositorio") {
-            val actividadesEsperadas = listOf(mockk<Actividad>(), mockk<Actividad>())
-            every { mockRepositorio.obtenerActividades() } returns actividadesEsperadas
+            it("debería devolver una lista de actividades si hay datos en el repositorio") {
+                val actividadesEsperadas = listOf(mockk<Actividad>(), mockk<Actividad>())
+                every { mockRepositorio.obtenerActividades() } returns actividadesEsperadas
 
-            val resultado = servicio.listarActividades()
+                val resultado = servicio.listarActividades()
 
-            resultado shouldBe actividadesEsperadas
+                resultado shouldBe actividadesEsperadas
+            }
+
+            it("debería devolver una lista vacía si no hay actividades en el repositorio") {
+                every { mockRepositorio.obtenerActividades() } returns emptyList()
+
+                val resultado = servicio.listarActividades()
+
+                resultado shouldBe emptyList()
+            }
         }
-
-        it("debería devolver una lista vacía si no hay actividades en el repositorio") {
-            every { mockRepositorio.obtenerActividades() } returns emptyList()
-
-            val resultado = servicio.listarActividades()
-
-            resultado shouldBe emptyList()
-        }
-    }
-})
+    })

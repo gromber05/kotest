@@ -1,6 +1,8 @@
 package es.prog2425.taskmanager.modelo
 
-class Usuario(val nombre: String) {
+class Usuario(
+    val nombre: String,
+) {
     val tareasAsignadas: MutableList<Tarea> = mutableListOf()
 
     // Metodo para asignar una tarea a este usuario

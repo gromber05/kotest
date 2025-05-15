@@ -5,11 +5,14 @@ import es.prog2425.taskmanager.utils.Utilidades
 class Evento private constructor(
     descripcion: String,
     val fecha: String,
-    private val ubicacion: String
-): Actividad(descripcion) {
-
+    private val ubicacion: String,
+) : Actividad(descripcion) {
     companion object {
-        fun crearInstancia(descripcion: String, fecha: String, ubicacion: String) = Evento(descripcion, fecha, ubicacion)
+        fun crearInstancia(
+            descripcion: String,
+            fecha: String,
+            ubicacion: String,
+        ) = Evento(descripcion, fecha, ubicacion)
     }
 
     init {
