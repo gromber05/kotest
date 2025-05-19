@@ -1,4 +1,13 @@
 # Linters
+## Proceso de instalación
+
+El proceso de instalación ha sido realmente fácil y sencillo. Para esta extensión, simplemente me he ido al marketplace de plugins de IntelliJ Idea, he buscado KTLint y lo he encontrado al instante. 
+Entonces, he presionado el botón de instalar y automáticamente ya estaba funcionando el linter sobre mi código
+
+![img_1.png](assets/img_1.png)
+![img_2.png](assets/img_2.png)
+
+Esto es el breve proceso de instalación del linter dentro de mi entorno de desarrollo.
 
 ## Preguntas
 
@@ -30,7 +39,7 @@ Sí, me ha parecido bastante correcta, ya que me facilita las búsquedas de las 
 
 ### 2.c ¿Por qué se ha producido ese error/problema?
 
-Porque no se me había ocurrido la idea de especificar más en los nombres de los métodos o las funciones. 
+Este pequeño error de factorización de código ha ocurrido porque se deberían de nombrar las funciones de una forma más especificativa y concreta de lo que yo he hecho, y debería de haber aclarado más que realizaba cada función.
 
 ---
 
@@ -49,8 +58,56 @@ He cambiado el modo de funcionamiento de KTLint a modo manual, haciendo que yo m
 ### 3.c Pon un ejemplo de cómo ha impactado en tu código, enlazando al código anterior al cambio, y al posterior al cambio.
 
 - Parte anterior del código
+````kotlin
+    /**
+     * Obtiene la fecha actual.
+     *
+     * @return Un `String` con la fecha actual en formato `"dd-MM-yyyy"`.
+     */
+    fun obtenerFechaActual(): String {
+        return LocalDate.now().format(formatter)
+    }
+    
+    /**
+     * Verifica si una fecha proporcionada es válida según el formato "dd-MM-yyyy".
+     *
+     * @param fecha La fecha a validar en formato `"dd-MM-yyyy"`.
+     * @return `true` si la fecha tiene el formato correcto y es válida en el calendario; `false` en caso contrario.
+     */
+    fun esFechaValida(fecha: String): Boolean {
+        return try {
+            LocalDate.parse(fecha, formatter)
+            true
+        } catch (e: DateTimeParseException) {
+            false
+        }
+    }
+````
 https://github.com/gromber05/kotest/blob/0cdc4cbd909930a95d0adef5e326a5ac95583e22/src/main/kotlin/utils/Utilidades.kt#L15-L33
+
 - Parte nueva del código
+````kotlin
+    /**
+     * Obtiene la fecha actual.
+     *
+     * @return Un `String` con la fecha actual en formato `"dd-MM-yyyy"`.
+     */
+    fun obtenerFechaActual(): String = LocalDate.now().format(formatter)
+
+    /**
+     * Verifica si una fecha proporcionada es válida según el formato "dd-MM-yyyy".
+     *
+     * @param fecha La fecha a validar en formato `"dd-MM-yyyy"`.
+     * @return `true` si la fecha tiene el formato correcto y es válida en el calendario; `false` en caso contrario.
+     */
+    fun esFechaValida(fecha: String): Boolean =
+        try {
+            LocalDate.parse(fecha, formatter)
+            true
+        } catch (e: DateTimeParseException) {
+            false
+        }
+````
 https://github.com/gromber05/kotest/blob/2b9daaaceedd393ac82275bdae93572963f34a34/src/main/kotlin/utils/Utilidades.kt#L7-L30
 
 ---
