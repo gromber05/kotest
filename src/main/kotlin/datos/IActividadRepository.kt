@@ -6,6 +6,8 @@ import es.prog2425.taskmanager.modelo.Tarea
 
 interface IActividadRepository {
     fun agregarEvento(evento: Evento)
+
     fun agregarTarea(tarea: Tarea)
+
     fun obtenerActividades(): List<Actividad>
 }

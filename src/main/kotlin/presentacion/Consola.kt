@@ -4,7 +4,7 @@ import es.prog2425.taskmanager.modelo.Actividad
 import es.prog2425.taskmanager.modelo.Evento
 import es.prog2425.taskmanager.modelo.Tarea
 
-class Consola: Interfaz {
+class Consola : Interfaz {
     private val separator = "=============================="
 
     override fun mostrarMenu() {
@@ -26,13 +26,9 @@ class Consola: Interfaz {
         print("> ")
     }
 
-    override fun leerString(): String {
-        return readlnOrNull() ?: ""
-    }
+    override fun leerString(): String = readlnOrNull() ?: ""
 
-    override fun leerNum(): Int {
-        return readlnOrNull()?.toIntOrNull() ?: -1
-    }
+    override fun leerNum(): Int = readlnOrNull()?.toIntOrNull() ?: -1
 
     override fun mostrar(x: Any) {
         println(x)

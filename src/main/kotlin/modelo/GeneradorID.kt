@@ -28,7 +28,7 @@ class GeneradorID {
 
         val fechaSeparada = fecha.split("-")
 
-        return ("${fechaSeparada[2]}${fechaSeparada[1]}${fechaSeparada[0]}${identificador}").toInt()
+        return ("${fechaSeparada[2]}${fechaSeparada[1]}${fechaSeparada[0]}$identificador").toInt()
     }
 
     private fun comprobarFechaContador(fecha: String): Boolean {

@@ -4,7 +4,7 @@ import es.prog2425.taskmanager.modelo.Actividad
 import es.prog2425.taskmanager.modelo.Evento
 import es.prog2425.taskmanager.modelo.Tarea
 
-class ActividadRepository: IActividadRepository {
+class ActividadRepository : IActividadRepository {
     private val listaActividades: MutableList<Actividad> = mutableListOf()
 
     // Agrega un evento

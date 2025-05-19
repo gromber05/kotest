@@ -3,7 +3,9 @@ package es.prog2425.taskmanager.modelo
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class Tarea private constructor(descripcion: String): Actividad(descripcion) {
+class Tarea private constructor(
+    descripcion: String,
+) : Actividad(descripcion) {
     var estado: Estado = Estado.ABIERTA
     private val subtareas: MutableList<Tarea> = mutableListOf()
     private var usuarioAsignado: Usuario? = null
@@ -69,11 +71,12 @@ class Tarea private constructor(descripcion: String): Actividad(descripcion) {
     }
 
     override fun obtenerDetalle(): String {
-        val subtareasDetalles = if (subtareas.isEmpty()) {
-            "No tiene subtareas."
-        } else {
-            subtareas.joinToString("\n") { it.obtenerDetalle() }
-        }
+        val subtareasDetalles =
+            if (subtareas.isEmpty()) {
+                "No tiene subtareas."
+            } else {
+                subtareas.joinToString("\n") { it.obtenerDetalle() }
+            }
         return super.obtenerDetalle() + " Estado: $estado\nSubtareas:\n$subtareasDetalles"
     }
 
