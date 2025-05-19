@@ -6,11 +6,11 @@
 
 ### 1.a ¿Qué herramienta has usado, y para qué sirve?
 
-He usado KTLint, es una herramienta de refactorización de código para Kotlin. 
+He usado KTLint, es una herramienta de refactorización de código e identificación y solución de errores para Kotlin. 
 
 ### 1.b ¿Cuáles son sus características principales?
 
-Su propósito principal es ayudara a mantener un código limpio de errores de formato o de estilo.
+Su propósito principal es ayudar a mantener un código limpio de errores de formato o de estilo, encontrandolos revisando los archivos con extensión .kt uno por uno.
 
 ### 1.c ¿Qué beneficios obtengo al utilizar dicha herramienta?
 
