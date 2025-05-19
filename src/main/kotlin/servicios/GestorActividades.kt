@@ -65,10 +65,10 @@ class GestorActividades {
     }
 
     private fun listarActividades() {
-        extracted()
+        listarActividadesExtracted()
     }
 
-    private fun extracted() {
+    private fun listarActividadesExtracted() {
         val actividades = servicio.listarActividades()
         if (actividades.isEmpty()) {
             salida.mostrar("\nNo hay actividades registradas.")

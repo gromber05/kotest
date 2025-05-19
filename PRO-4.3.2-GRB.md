@@ -51,7 +51,7 @@ Todo esto permitió al método menu() una mayor facilidad a la lectura de otros 
 
 También cabe destacar que todo esto se debería de realizar en conjunto con un control de versiones para tener registros del código original y el refactorizado en todo momento.
 
-##[3]
+## [3]
 
 ### 3.a ¿Qué funcionalidad del IDE has usado para aplicar la refactorización seleccionada? Si es necesario, añade capturas de pantalla para identificar la funcionalidad.
 
@@ -59,8 +59,25 @@ Para realizar la refactorización del código he hecho uso de la herramienta de 
 
 Por ejemplo, para extraer métodos y mejorar la modulabilidad del código, he usado lo siguiente:
 
+- Aquí si seleccionamos el trozo de código que querramos refactorizar se nos debería de abrir un pequeño submenú que nos permite la opción de 'Extract'
 ![img.png](assets/img_3.png)
 
+- Si seleccionamos la opción de 'extract » function', lo que hace es que nos extrae esa función donde queramos, dentro de la clase, del archivo o a un archivo aparte.
 ![img_1.png](assets/img_1.png)
 
-Esto se realiza para lo mencionado anteriormente, que extrae el método de una función.
+- Esto se realiza para lo mencionado anteriormente, que extrae el método de una función.
+
+Para realizar cambios de nombre, podemos realizar la siguiente función del IDE:
+
+![img.png](assets/img_5.png)
+
+- Dentro del menú de Refactor, seleccionamos la opción de rename
+
+![img_1.png](assets/img_7.png)
+
+- Y se nos debería de seleccionar como una opción dentro del archivo que nos permite renombrar la función, y se realiza el cambio a nivel global en el proyecto
+
+![img_2.png](assets/img_6.png)
+
+Para introducir, variables, parámetros, o propiedades dentro de un método, podemos realizarlo de la siguiente manera:
+![img.png](assets/img_4.png)

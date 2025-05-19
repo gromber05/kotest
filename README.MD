@@ -1,5 +1,8 @@
 # **Pruebas de ActividadService (Kotest/Mock)**
 
+## Actividad Code Smell & Refactorización de Código
+[Archivo .md preguntas](PRO-4.3.2-GRB.md)
+
 ## Resumen de Casos de Prueba
 
 | Método                    | Caso de prueba                                        | Estado inicial del mock                          | Acción                                          | Resultado esperado                              |
@@ -26,3 +29,4 @@
 | asociarSubtarea          | tareaPrincipal: Tarea, subtarea: Tarea                      | Llama a `agregarSubtarea()` sobre `tareaPrincipal`                      | `subtarea` no es nulo                                              | `subtarea` es nula → lanza `NullPointerException`                     |
 | cambiarEstadoTarea       | tarea: Tarea, nuevoEstado: Estado                           | Llama a `cambiarEstadoConHistorial()`                                   | `tarea` y `nuevoEstado` no son nulos                               | `tarea` es nula → lanza `NullPointerException`                        |
 | listarActividades        | *(ninguno)*                                                  | Retorna el resultado de `obtenerActividades()` del repositorio          | El repositorio devuelve una lista válida (con o sin elementos)     | No lanza error, devuelve una lista vacía si no hay datos              |
+
