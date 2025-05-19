@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.0.10"
+    id("org.jetbrains.dokka") version "1.9.20"
 }
 
 group = "entornos2425.dam1.taskmanager_kotest"

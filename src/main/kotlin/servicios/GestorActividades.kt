@@ -9,13 +9,28 @@ import es.prog2425.taskmanager.modelo.Tarea
 import es.prog2425.taskmanager.modelo.Estado
 import es.prog2425.taskmanager.modelo.Evento
 
+/**
+ * Clase principal encargada de gestionar todas las operaciones relacionadas con actividades (tareas y eventos).
+ * Proporciona un menú para interactuar con el usuario y delega las operaciones a servicios y repositorios correspondientes.
+ *
+ * Funcionalidades principales:
+ * - Crear, listar, modificar y cerrar tareas y eventos.
+ * - Asociar subtareas a tareas principales.
+ * - Filtrar actividades por tipo, estado, etiquetas o usuario.
+ * - Consultar historial de una tarea.
+ * - Gestión de usuarios (crear, asignar tareas, consultar tareas asignadas).
+ *
+ * Utiliza la interfaz [Interfaz] para la interacción con el usuario y el servicio [ActividadService] para la lógica de negocio.
+ */
 class GestorActividades {
 
     private val salida: Interfaz = Consola()
     private val servicio = ActividadService(ActividadRepository())
     private val servicioUsuario: IUsuarioService = UsuarioService()
 
-    // Muestra el menu principal
+    /**
+     * Muestra el menú principal y gestiona la navegación entre opciones hasta que el usuario decida salir.
+     */
     fun menu() {
         var salir = false
         do {
@@ -43,6 +58,9 @@ class GestorActividades {
         } while (!salir)
     }
 
+    /**
+     * Permite consultar el historial de cambios de una tarea seleccionada por el usuario.
+     */
     private fun consultarHistorialTarea() {
         salida.mostrar("\nSelecciona la tarea para ver su historial:")
         val tarea = obtenerTarea()
@@ -57,7 +75,9 @@ class GestorActividades {
         }
     }
 
-    // Listar actividades
+    /**
+     * Lista todas las actividades (tareas y eventos) registradas.
+     */
     private fun listarActividades() {
         val actividades = servicio.listarActividades()
         if (actividades.isEmpty()) {
@@ -70,7 +90,9 @@ class GestorActividades {
         }
     }
 
-    // Cambiar el estado de una tarea
+    /**
+     * Permite cambiar el estado de una tarea seleccionada por el usuario.
+     */
     private fun cambiarEstadoTarea() {
         salida.mostrar("\nSelecciona la tarea cuyo estado deseas cambiar:")
         val tarea = obtenerTarea()
@@ -99,7 +121,9 @@ class GestorActividades {
         }
     }
 
-    // Cerrar tarea (verificando que todas las subtareas estén cerradas)
+    /**
+     * Permite cerrar una tarea solo si todas sus subtareas están cerradas.
+     */
     private fun cerrarTarea() {
         salida.mostrar("\nSelecciona la tarea a cerrar:")
         val tarea = obtenerTarea()
@@ -111,18 +135,27 @@ class GestorActividades {
         }
     }
 
+    /**
+     * Solicita los datos necesarios y crea una nueva tarea.
+     */
     private fun crearTarea() {
         val descripcion = pedirDescripcion()
         servicio.crearTarea(descripcion)
         salida.mostrar("\nTarea creada con éxito y etiquetas asignadas.")
     }
 
+    /**
+     * Solicita al usuario introducir etiquetas separadas por ';'.
+     * @return Lista de etiquetas proporcionadas.
+     */
     private fun pedirEtiquetas(): List<String> {
         salida.mostrarInput("Introduce las etiquetas (separadas por ';'):")
         return salida.leerString().split(';').map { it.trim() }.filter { it.isNotEmpty() }
     }
 
-    // Asociar una subtarea a una tarea principal
+    /**
+     * Permite asociar una nueva subtarea a una tarea principal seleccionada.
+     */
     private fun asociarSubtarea() {
         salida.mostrar("\nSelecciona la tarea principal:")
         val tareaPrincipal = obtenerTarea()
@@ -133,16 +166,18 @@ class GestorActividades {
         salida.mostrar("\nSubtarea asociada a la tarea principal.")
     }
 
-    // Obtener tarea por ID o descripción
+    /**
+     * Permite al usuario seleccionar una tarea de una lista de tareas disponibles.
+     * @return La tarea seleccionada.
+     * @throws IllegalStateException Si no hay tareas disponibles.
+     */
     private fun obtenerTarea(): Tarea {
-        // Listamos todas las tareas para que el usuario vea y elija
         val tareas = servicio.listarActividades().filterIsInstance<Tarea>()
 
         if (tareas.isEmpty()) {
             salida.mostrar("\nNo hay tareas disponibles.")
             println("Error no controlado si no hay try-catch")
             throw IllegalStateException("No hay tareas disponibles para seleccionar.")
-
         }
 
         salida.mostrar("\nSelecciona una tarea de la lista:")
@@ -150,7 +185,6 @@ class GestorActividades {
             salida.mostrar("${index + 1}. ${tarea.obtenerDetalle()}")
         }
 
-        // Le pedimos al usuario que elija una tarea por su número (índice + 1)
         var tareaSeleccionada: Tarea? = null
         while (tareaSeleccionada == null) {
             salida.mostrar("\nIntroduce el número de la tarea:")
@@ -166,6 +200,10 @@ class GestorActividades {
         return tareaSeleccionada
     }
 
+    /**
+     * Solicita una descripción al usuario.
+     * @return Descripción introducida.
+     */
     private fun pedirDescripcion(): String {
         while (true) {
             salida.mostrar("\nIntroduce la descripcion")
@@ -176,6 +214,10 @@ class GestorActividades {
         }
     }
 
+    /**
+     * Solicita una fecha válida al usuario.
+     * @return Fecha válida en formato dd-MM-yyyy.
+     */
     private fun pedirFecha(): String {
         while (true) {
             salida.mostrar("\nIntroduce la fecha con el siguiente formato (dd-MM-yyyy)")
@@ -188,6 +230,10 @@ class GestorActividades {
         }
     }
 
+    /**
+     * Solicita una ubicación al usuario.
+     * @return Ubicación introducida.
+     */
     private fun pedirUbicacion(): String {
         while (true) {
             salida.mostrar("\nIntroduce la ubicacion")
@@ -198,6 +244,9 @@ class GestorActividades {
         }
     }
 
+    /**
+     * Solicita el nombre de un nuevo usuario y lo crea.
+     */
     private fun crearUsuario() {
         salida.mostrar("\nIntroduce el nombre del nuevo usuario: ")
         val nombre = salida.leerString()
@@ -205,13 +254,12 @@ class GestorActividades {
         salida.mostrar("\nUsuario '$nombre' creado con éxito.")
     }
 
+    /**
+     * Permite asignar una tarea seleccionada a un usuario existente.
+     */
     private fun asignarTareaAUsuario() {
         salida.mostrar("\nSelecciona la tarea a asignar: ")
         val tarea = obtenerTarea()
-
-
-
-
         salida.mostrar("\nIntroduce el nombre del usuario al que asignar la tarea: ")
         val nombreUsuario = salida.leerString()
 
@@ -224,6 +272,9 @@ class GestorActividades {
         }
     }
 
+    /**
+     * Permite aplicar diferentes filtros sobre las actividades.
+     */
     private fun filtrarActividades() {
         salida.mostrar("\nFiltrar actividades por:")
         salida.mostrar("1. Tipo (Tarea o Evento)")
@@ -241,6 +292,9 @@ class GestorActividades {
         }
     }
 
+    /**
+     * Filtra las actividades asignadas a un usuario.
+     */
     private fun filtrarPorUsuario() {
         salida.mostrar("\nIntroduce el nombre del usuario a filtrar:")
         val nombreUsuario = salida.leerString()
@@ -254,6 +308,9 @@ class GestorActividades {
         mostrarActividades(filtradas)
     }
 
+    /**
+     * Filtra las actividades por tipo (Tarea o Evento).
+     */
     private fun filtrarPorTipo() {
         salida.mostrar("\nSelecciona el tipo de actividad a filtrar:")
         salida.mostrar("1. Tarea")
@@ -272,6 +329,9 @@ class GestorActividades {
         mostrarActividades(actividadesFiltradas)
     }
 
+    /**
+     * Filtra las actividades por su estado.
+     */
     private fun filtrarPorEstado() {
         salida.mostrar("\nSelecciona el estado de la actividad a filtrar:")
         salida.mostrar("1. ABIERTA")
@@ -293,6 +353,9 @@ class GestorActividades {
         mostrarActividades(actividadesFiltradas)
     }
 
+    /**
+     * Filtra las actividades por una etiqueta proporcionada por el usuario.
+     */
     private fun filtrarPorEtiquetas() {
         salida.mostrar("\nIntroduce la etiqueta a filtrar: ")
         val etiqueta = salida.leerString()
@@ -304,6 +367,10 @@ class GestorActividades {
         mostrarActividades(actividadesFiltradas)
     }
 
+    /**
+     * Muestra por pantalla el detalle de una lista de actividades.
+     * @param actividades Lista de actividades a mostrar.
+     */
     private fun mostrarActividades(actividades: List<Actividad>) {
         if (actividades.isEmpty()) {
             salida.mostrar("\nNo se encontraron actividades con los filtros seleccionados.")
@@ -315,6 +382,9 @@ class GestorActividades {
         }
     }
 
+    /**
+     * Permite consultar las tareas asignadas a un usuario.
+     */
     private fun consultarTareasUsuario() {
         salida.mostrar("\nIntroduce el nombre del usuario para consultar sus tareas: ")
         val nombreUsuario = salida.leerString()
