@@ -89,15 +89,6 @@ Renombré funciones y variables siguiendo las convenciones y buenas prácticas d
 
 ---
 
-## Ejemplo de antes y después (enlace a commits)
-
-- **Antes:**  
-  [Código original](https://github.com/gromber05/kotest/blob/0cdc4cbd909930a95d0adef5e326a5ac95583e22/src/main/kotlin/utils/Utilidades.kt#L15-L33)
-- **Después:**  
-  [Código tras aplicar Ktlint](https://github.com/gromber05/kotest/blob/2b9daaaceedd393ac82275bdae93572963f34a34/src/main/kotlin/utils/Utilidades.kt#L7-L30)
-
----
-
 ## 4. Configuración personalizada de Ktlint
 
 Ktlint permite configurarse a través del archivo `.editorconfig`. Por ejemplo, para permitir archivos sin salto de línea final:
@@ -162,7 +153,10 @@ He cambiado la regla de salto de línea final (`insert_final_newline = false`) y
 
 #### 3.c Ejemplo del impacto
 
-Ver los enlaces de antes y después en el apartado de ejemplo.
+- **Antes:**  
+  [Código original](https://github.com/gromber05/kotest/blob/0cdc4cbd909930a95d0adef5e326a5ac95583e22/src/main/kotlin/utils/Utilidades.kt#L15-L33)
+- **Después:**  
+  [Código tras aplicar Ktlint](https://github.com/gromber05/kotest/blob/2b9daaaceedd393ac82275bdae93572963f34a34/src/main/kotlin/utils/Utilidades.kt#L7-L30)
 
 ---
 
