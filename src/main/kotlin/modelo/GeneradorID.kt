@@ -32,7 +32,7 @@ class GeneradorID {
     }
 
     private fun comprobarFechaContador(fecha: String): Boolean {
-        for ((fechaMapa, contador) in mapaIdEventos) {
+        for ((fechaMapa, _) in mapaIdEventos) {
             if (fechaMapa == fecha) return true
         }
         return false
