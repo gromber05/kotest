@@ -41,57 +41,81 @@ A continuación se documentan algunos tipos de errores detectados por Ktlint y l
 
 ### 1. Importaciones no utilizadas
 
-**Descripción:**  
-Ktlint señala importaciones que no están en uso.
+Ktlint señala imports que no están en uso. Para solucionar este error, se eliminaron las líneas de import innecesarias en los archivos afectados.
 
-**Solución aplicada:**  
-Se eliminaron las líneas de import innecesarias en los archivos afectados.
+```kotlin
+import es.prog2425.taskmanager.modelo.Usuario
+import java.util.Random // <- Importación no utilizada
+
+class UsuarioRepository : IUsuarioRepository {
+    // ...
+}
+```
 
 ---
 
 ### 2. Funciones declaradas pero nunca utilizadas
 
-**Descripción:**  
-Detección de funciones privadas no utilizadas (código muerto).
+Detección de funciones privadas que no se utilizan dentro de mi código (código muerto). Eliminé las funciones que no se usaban en ningún lugar del proyecto.
 
-**Solución aplicada:**  
-Eliminé las funciones que no se usaban en ningún lugar del proyecto.
+```kotlin
+private fun calcularHash(usuario: Usuario): Int {
+    // ...
+}
+```
 
 ---
 
 ### 3. Uso de println en vez de sistema de salida centralizado
 
-**Descripción:**  
-Se detectó el uso de `println` en vez de la función de salida estándar del proyecto.
 
-**Solución aplicada:**  
-Cambié las llamadas a `println` por `salida.mostrar()`, mejorando la coherencia dentro del código del proyecto.
+Se detectó el uso de `println` en vez de la función de salida estándar del proyecto. Cambié las llamadas a las funciones de `println` por `salida.mostrar()`.
+
+- Antes: 
+```kotlin
+println("Usuario creado correctamente")
+```
+- Después:
+```kotlin
+salida.mostrar("Usuario creado correctamente")
+```
 
 ---
 
 ### 4. Espacios en blanco innecesarios o líneas demasiado largas
 
-**Descripción:**  
-Ktlint reportó líneas con espacios finales o líneas que excedían el límite de longitud estándar.
 
-**Solución aplicada:**  
-Eliminé espacios extra y adapté las líneas para cumplir los estándares.
+Ktlint me sugirió que había líneas con espacios finales o líneas que excedían el límite de longitud estándar. Eliminé espacios extra y adapté las líneas para cumplir las buenas prácticas.
+
+```kotlin
+val nombre = "Juan"    
+val apellido = "Pérez" // Línea muy larga que excede el límite recomendado por Ktlint
+```
 
 ---
 
 ### 5. Nombres de funciones y variables poco descriptivos
 
-**Descripción:**  
-Ktlint sugirió mejorar nombres de funciones para hacerlos más descriptivos, genéricos o específicos.
 
-**Solución aplicada:**  
-Renombré funciones y variables siguiendo las convenciones y buenas prácticas de Kotlin.
+Ktlint me sugirió cambiar los nombres de funciones para hacerlos más descriptivos y específicos. Renombré funciones y variables siguiendo las buenas prácticas de Kotlin.
+
+- Antes: 
+```kotlin
+fun f1() { /* ... */ }
+val x = 10
+```
+
+- Después:
+```kotlin
+fun calcularEdadUsuario() { /* ... */ }
+val edadUsuario = 10
+```
 
 ---
 
 ## 4. Configuración personalizada de Ktlint
 
-Ktlint permite configurarse a través del archivo `.editorconfig`. Por ejemplo, para permitir archivos sin salto de línea final:
+Ktlint permite configurarse a través del archivo `.editorconfig`. Por ejemplo, para permitir archivos sin salto de línea:
 
 ```ini
 [*.kt]
@@ -99,7 +123,7 @@ insert_final_newline = false
 ```
 
 **Impacto:**  
-Antes, Ktlint reportaba error si no había salto de línea al final de cada archivo. Tras la modificación, ya no lo reporta.
+Antes, Ktlint daba error si no había salto de línea. Tras la modificación, ya no da error.
 
 ---
 
@@ -115,7 +139,7 @@ He usado **Ktlint**, un formateador y analizador de código para Kotlin que ayud
 
 - Aplicación automática de formato.
 - Detección y corrección de errores de estilo.
-- Integración con IDE y herramientas de CI.
+- Integración con IDE.
 - Es configurable a través del archivo `.editorconfig`
 
 #### 1.c ¿Qué beneficios obtengo al utilizar dicha herramienta?
@@ -167,20 +191,3 @@ He cambiado la regla de salto de línea final (`insert_final_newline = false`) y
 Ktlint ha mejorado la calidad y homogeneidad de mi código, pero no sustituye la revisión humana ni la comprensión lógica, simplemente ayuda a mantener el código ordenado y profesional.
 
 ---
-
-## Lista de errores detectados
-
-1. **Unused variable**  
-   En este for, hay una variable que no se está usando, lo que hace que el código esté menos limpio. Cambie la variable contador por una "_":
-````kotlin
-private fun comprobarFechaContador(fecha: String): Boolean {
-    for ((fechaMapa, contador /*He cambiado esta variable por _*/) in mapaIdEventos) {
-        if (fechaMapa == fecha) return true
-    }
-    return false
-}
-````
-````
-    De esta manera, nos ahorramos el cargar en memoria más datos de los necesarios.
-
-2. **e**
