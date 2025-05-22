@@ -18,8 +18,13 @@ class ActividadService(
     }
 
     fun crearTarea(descripcion: String) {
-        val tarea = Tarea.crearInstancia(descripcion)
+        val tarea = instanciarTarea(descripcion)
         repositorio.agregarTarea(tarea)
+    }
+
+    fun instanciarTarea(descripcion: String): Tarea {
+        val tarea = Tarea.crearInstancia(descripcion)
+        return tarea
     }
 
     fun asociarSubtarea(

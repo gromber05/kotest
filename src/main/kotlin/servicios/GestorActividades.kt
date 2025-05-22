@@ -112,6 +112,10 @@ class GestorActividades {
     private fun cerrarTarea() {
         salida.mostrar("\nSelecciona la tarea a cerrar:")
         val tarea = obtenerTarea()
+        extracted(tarea)
+    }
+
+    fun extracted(tarea: Tarea) {
         try {
             tarea.cerrar()
             salida.mostrar("\nTarea cerrada exitosamente.")

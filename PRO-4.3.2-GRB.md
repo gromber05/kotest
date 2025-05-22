@@ -82,3 +82,22 @@ Para realizar cambios de nombre, podemos realizar la siguiente función del IDE:
 
 Para introducir, variables, parámetros, o propiedades dentro de un método, podemos realizarlo de la siguiente manera:
 ![img.png](assets/img_4.png)
+
+
+## Pruebas unitarias
+
+Se han realizado pruebas unitarias para comprobar que la función extraída sigue con su función principal.
+
+![img.png](assets/img_33.png)
+
+En este caso, separé la función que se encarga de instanciar una tarea, para contiunar con el principio de única responsabilidad
+
+Creé la clase con `MOCK` para poder probar si aún continuaba realizando sun función incial.
+
+![img.png](assets/img_42.png)
+
+Ahora, probamos si realmente funciona la función.
+
+![img.png](img.png)
+
+Esto nos indica que la función extraída sigue su correcto funcionamiento.
