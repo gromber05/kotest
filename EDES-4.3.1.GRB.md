@@ -122,7 +122,6 @@ Ktlint permite configurarse a través del archivo `.editorconfig`. Por ejemplo, 
 insert_final_newline = false
 ```
 
-**Impacto:**  
 Antes, Ktlint daba error si no había salto de línea. Tras la modificación, ya no da error.
 
 ---
@@ -161,7 +160,7 @@ Sí, las sugerencias han sido claras y he podido aplicar los cambios fácilmente
 
 #### 2.c ¿Por qué se ha producido ese error/problema?
 
-Por falta de atención al nombrar funciones durante el desarrollo inicial.
+Por falta de atención al nombrar funciones durante el desarrollo inicial, porque estuve realizando el código sin pararme a pensar sobre como nombrar a las funciones debidamente
 
 ---
 
@@ -188,6 +187,6 @@ He cambiado la regla de salto de línea final (`insert_final_newline = false`) y
 
 #### 4. ¿Qué conclusiones sacas después del uso de estas herramientas?
 
-Ktlint ha mejorado la calidad y homogeneidad de mi código, pero no sustituye la revisión humana ni la comprensión lógica, simplemente ayuda a mantener el código ordenado y profesional.
+Ktlint ha mejorado la calidad de mi código, pero no sustituye la revisión humana ni la comprensión lógica, simplemente ayuda a mantener el código ordenado y profesional.
 
 ---
