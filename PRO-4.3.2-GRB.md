@@ -13,7 +13,7 @@ También he encontrado nombres poco descriptivos e inconsistentes. Lo he solucio
 Y por último, visualicé que había código muerto (Dead Code), es decir, que había variables muertas y que no estaban en uso dentro de mi código, así que decidí eliminarlas.
 ### 1.b Teniendo en cuenta aquella funcionalidad que tiene pruebas unitarias, selecciona un patrón de refactorización de los que has aplicado y que están cubiertos por los test unitarios. ¿Por qué mejora o no mejora tu código? Asegúrate de poner enlaces a tu código
 
-En la clase [GestorActividades.kt](src/main/kotlin/servicios/GestorActividades.kt) pude comprobar que el método menu() era muy largo y contenía demasiada lógica dentro de un solo bloque de código, que dificultaba la lectura del código. Para mejorar la estructura y solventar el problema que había encontrado, apliqué el patrón de refactorización de Extract Method separando partes del menú en métodos privados algo más compactos, como:
+En la clase [GestorActividades.kt](src/main/kotlin/servicios/GestorActividades.kt) pude comprobar que el método menu() era muy largo y contenía demasiada lógica dentro de un solo bloque de código, que dificultaba la lectura del código. Para mejorar la estructura y solucionar el problema que había encontrado, apliqué el patrón de refactorización de Extract Method separando partes del menú en métodos privados algo más compactos, como:
 
 - crearTarea()
 
